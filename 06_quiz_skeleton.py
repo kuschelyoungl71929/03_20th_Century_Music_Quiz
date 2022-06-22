@@ -1,8 +1,7 @@
 from tkinter import * 
 from functools import partial
 import re
-
-from setuptools import Command
+import time
 
 class Start:
     def __init__(self, partner):
@@ -14,6 +13,7 @@ class Start:
         self.start_frame = Frame(width=240, height=150, bg=start_bkg, padx=10, pady=15)
         
         self.start_frame.grid()
+        #self.start_frame.resizable(False,False)
         
         #title
         self.start_label = Label(self.start_frame, text = "Music of the \n 20th Century", font="garamond 20 bold", justify=LEFT, bg=start_bkg)
@@ -123,7 +123,6 @@ class Mode:
 
 
     def info_disp(self, mode):
-        print(mode)
     
         mode = int(mode)
 
@@ -140,19 +139,64 @@ class Mode:
         self.continue_button = Button(self.mode_frame, text = "Continue",font="Verdana 9", background="#9CE0ED", command =lambda:  self.ten_quiz(mode))
         self.continue_button.grid(column = 0, row=2,padx=(240,0), pady = (0,10))
     def ten_quiz(self, mode):
-        print("start")
-        Quiz_10(self, mode) 
+
+        if mode <= 2:
+            Quiz_10(self, mode) 
+        else:
+            mode == 3
+            Quiz_timed(self,mode)
         root.withdraw()
         self.mode_box.destroy()
 
+    def timed_quiz(self,mode):
+
+        Quiz_timed(self, mode) 
+        root.withdraw()
+        self.mode_box.destroy()
     def close_button(self, partner):
         #destroy the currently open box
         self.mode_box.destroy()
         #bring back the root box
         root.deiconify()
     def info(self):  
-        print("help")
+
         get_help = Info(self)
+
+class Quiz_timed:
+    def __init__(self, mode, partner):
+        print(mode)
+        self.test =IntVar()
+        self.test.set(mode)
+        #set up list to hold questions
+        questions = []
+        #opens a new window
+        self.quiz_10_box = Toplevel()
+        #makes the X button in the corner functional
+        self.quiz_10_box.protocol('WM_DELETE_WINDOW', partial(self.close_button, partner))
+        #frame to hold components
+        self.answer_frame = Frame(self.quiz_10_box, width=400, height= 200, bg = "#B1DDF0")
+        self.answer_frame.grid(row=0, column = 0)
+        self.counter = Label(self.answer_frame, text="", font = "garamond 14", bg ="#B1DDF0" )
+        self.counter.grid(row = 0, sticky=NW)
+        self.question = Label(self.answer_frame, text= "?",  font = "garamond 14", bg ="#B1DDF0" )
+        self.question.grid(row=1, column = 0)
+        self.a1=Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 14" , background="#FFFF88")
+        self.a1.grid(row = 2, column = 0, padx=10, pady=10)
+        self.a2 = Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 14" , background="#CCE5FF")
+        self.a2.grid(row = 3, column = 0, padx=10, pady=10)
+        self.a3 = Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 14" , background="#CDEB8B")
+        self.a3.grid(row = 2, column = 1,  padx=10, pady=10)
+        self.a4=Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 14" , background="#FFFF88")
+        self.a4.grid(row = 3, column = 1,  padx=10, pady=10) 
+
+
+    def close_button(self, partner):
+        #destory the currently open box
+        self.quiz_10_box.destroy()
+        #bring back the root box
+        root.deiconify()
+
+
 
 class Quiz_10:
     def __init__(self, mode, partner):
@@ -168,7 +212,7 @@ class Quiz_10:
         #frame to hold components
         self.answer_frame = Frame(self.quiz_10_box, width=400, height= 200, bg = "#B1DDF0")
         self.answer_frame.grid(row=0, column = 0)
-        self.counter = Label(self.answer_frame, text="X/10", font = "garamond 14", bg ="#B1DDF0" )
+        self.counter = Label(self.answer_frame, text="{}/10", font = "garamond 14", bg ="#B1DDF0" )
         self.counter.grid(row = 0, sticky=NW)
         self.question = Label(self.answer_frame, text= "?",  font = "garamond 14", bg ="#B1DDF0" )
         self.question.grid(row=1, column = 0)
@@ -195,9 +239,6 @@ class Quiz_10:
         self.quiz_10_box.destroy()
         #bring back the root box
         root.deiconify()
-
-    def question_rng(self, partner):
-        self
 
 
 # main routine
