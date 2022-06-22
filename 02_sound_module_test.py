@@ -3,21 +3,25 @@ from winsound import *
 class Start:
     def __init__(self, parent):
 
-        # Bkg Variable
-        bkg_colour = "#9fe5d9"
+         # Bkg Variable
+        start_bkg = "#BAC8D3"
 
         # Main Window
-        self.start_frame = Frame(width=400, height=300, bg=bkg_colour, padx=10, pady=30)
+        self.start_frame = Frame(width=240, height=150, bg=start_bkg, padx=10, pady=15)
         
         self.start_frame.grid()
   
         #Help button
-        self.noise_button_01 = Button(self.start_frame, text="Success", padx=10, pady=10, command = self.play)
-        self.noise_button_01.grid(row=1)
+        self.noise_button_01 = Button(self.start_frame, text="Play Sound",  command = self.play)
+        self.noise_button_01.grid(row=1,padx=20, pady=20)
         
-        self.noise_button_02 = Button(self.start_frame, text="Beep", padx=10, pady=10, command = self.play2 )
-        self.noise_button_02.grid(row=2)
+        self.noise_button_02 = Button(self.start_frame, text="Beep", command = self.play2)
+        self.noise_button_02.grid(row=2, padx=20, pady=20)
         
+        #title
+        self.start_label = Label(self.start_frame, text = "Sound Player", font="garamond 20 bold", justify=LEFT, bg=start_bkg)
+        self.start_label.grid(row=0, sticky=NW)
+
     def play2(self):
         return Beep(800,500)
     def play(self):
