@@ -1,17 +1,26 @@
 #Import the required library
 import tkinter as tk
-import time
+from functools import partial
+import random
+import re
+
 class Timer():
     def __init__(self):
         self.root = tk.Tk()
         self.label = tk.Label(text="", font=('Times New Roman', 40))
         self.label.pack()
-        self.updateClock()
+        self.now = tk.IntVar()
+        self.now.set(60)
+        self.ok =()
+        self.updatetimer()
+        
         self.root.mainloop()
-    def updateClock(self):
-        now = time.strftime("%S")
-        now = int(now)
-        timer= 60 - now
-        self.label.configure(text = timer)
-        self.root.after(1000, self.updateClock)
+    
+    def updatetimer(self):
+        current = self.now.get()
+        self.ok = (current - 1 )
+        self.label.configure(text = self.ok)
+
+        self.root.after(10000, self.updatetimer())
+
 gui = Timer()
