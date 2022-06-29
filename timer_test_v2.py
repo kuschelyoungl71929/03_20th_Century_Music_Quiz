@@ -1,23 +1,19 @@
-import tkinter as tk
-class Timer():
+from tkinter import * 
+class Timer:
     def __init__(self):
-        self.root = tk.Tk()
-        self.label = tk.Label(text="", font=('Times New Roman', 40))
-        self.label.pack()
-        self.updateClock()
-        self.root.mainloop()
-    def updateClock(self,count):
-        # change text in label        
-        self.label['text'] = count
-
+        self.frame = Frame(width = 200, height = 200)
+        self.frame.grid()
+        self.countdown(60)
+    def countdown(self, count):
+        self.label = Label(self.frame, text = count,font=('Times New Roman', 40))
+        self.label.grid(row = 1, column = 1)
+        
         if count > 0:
-       
-            self.root.after(1000, self.updateClock, count-1)
+        
+            root.after(1000, self.countdown, count-1)
 
-        root = tk.Tk()
-
-        label = tk.Label(root)
-        label.place(x=35, y=15)
-
-    updateClock(60)
-
+if __name__ == "__main__":
+    root = Tk()
+    root.title("Timer")
+    something = Timer()
+    root.mainloop()

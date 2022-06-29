@@ -178,14 +178,63 @@ class Quiz_timed:
         self.countdown(60)
         self.question = Label(self.answer_frame, text= "?",  font = "garamond 14", bg ="#B1DDF0" )
         self.question.grid(row=1, column = 0)
-        self.a1=Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 14" , background="#FFFF88")
+        self.a1=Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 14" , background="#FFFF88", command= self.question_rng())
         self.a1.grid(row = 2, column = 0, padx=10, pady=10)
-        self.a2 = Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 14" , background="#CCE5FF")
+        self.a2 = Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 14" , background="#CCE5FF", command= self.question_rng())
         self.a2.grid(row = 3, column = 0, padx=10, pady=10)
-        self.a3 = Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 14" , background="#CDEB8B")
+        self.a3 = Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 14" , background="#CDEB8B", command= self.question_rng())
         self.a3.grid(row = 2, column = 1,  padx=10, pady=10)
-        self.a4=Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 14" , background="#FFFF88")
+        self.a4=Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 14" , background="#FFFF88", command= self.question_rng())
         self.a4.grid(row = 3, column = 1,  padx=10, pady=10) 
+
+
+
+
+    def question_rng(self, partner):
+        #set up list to hold questions
+        questions = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"]
+        for item in range(0, 1): 
+
+            for thing in range(0,1):
+
+                prize_num = random.randint(1,15)
+                questions += ""
+            
+                if prize_num == 1:
+                    file = questions[0]
+                elif prize_num == 2:
+                    file = questions[1]
+                elif  prize_num == 3:
+                    file = questions[2]
+                elif prize_num == 4:
+                    file = questions[3]
+                elif prize_num == 5:
+                    file = questions[5]
+                elif prize_num == 6:
+                    file = questions[6]
+                elif prize_num == 7:
+                    file = questions[7]
+                elif  prize_num == 8:
+                    file = questions[8]
+                elif prize_num == 9:
+                    file = questions[9]
+                elif prize_num == 10:
+                    file = questions[10]
+                elif prize_num == 11:
+                    file = questions[11]
+                elif prize_num == 12:
+                    file = questions[12]
+                elif  prize_num == 13:
+                    file = questions[13]
+                elif prize_num == 14:
+                    file = questions[14]
+                elif prize_num == 15:
+                    file = questions[15]
+                        
+        
+        #display images
+        self.question.configure(text=file)
+
     def countdown(self, count):
         self.counter.configure(text = count)
         self.counter.grid(row = 1, column = 1)
