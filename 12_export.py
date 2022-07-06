@@ -166,29 +166,29 @@ class Quiz_timed:
     def __init__(self, mode, partner):
         print(mode)
         self.test =IntVar()
-        
+       
         self.test.set(mode)
         self.right_count = 0
         self.wrong_count = 0
         #opens a new window
-        self.quiz_10_box = Toplevel()
+        self.quiz_timed_box = Toplevel()
         #makes the X button in the corner functional
-        self.quiz_10_box.protocol('WM_DELETE_WINDOW', partial(self.close_button, partner))
+        self.quiz_timed_box.protocol('WM_DELETE_WINDOW', partial(self.close_button, partner))
         #frame to hold components
-        self.answer_frame = Frame(self.quiz_10_box, width=400, height= 200, bg = "#B1DDF0")
+        self.answer_frame = Frame(self.quiz_timed_box, width=400, height= 200, bg = "#B1DDF0")
         self.answer_frame.grid(row=0, column = 0)
         self.counter = Label(self.answer_frame, text="", font = "garamond 14", bg ="#B1DDF0" )
         self.counter.grid(row = 0, sticky=NW)
-        self.countdown(60)
+        self.countdown(5)
         self.question = Label(self.answer_frame, text= "?",  font = "garamond 14", bg ="#B1DDF0" )
         self.question.grid(row=1, column = 0)
         self.a1=Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 13" , background="#CDEB8B", command= lambda: [self.question_rng(partner)])
         self.a1.grid(row = 2, column = 0, padx=10, pady=10)
-        self.a2 = Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 13" ,background="#CDEB8B", command= lambda: [self.question_rng(partner,)])
+        self.a2 = Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 13" ,background="#CDEB8B", command= lambda: [self.question_rng(partner)])
         self.a2.grid(row = 3, column = 0, padx=10, pady=10)
-        self.a3 = Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 13" , background="#CDEB8B", command= lambda: [self.question_rng(partner,)])
+        self.a3 = Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 13" , background="#CDEB8B", command= lambda: [self.question_rng(partner)])
         self.a3.grid(row = 2, column = 1,  padx=10, pady=10)
-        self.a4=Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 13" , background="#CDEB8B", command= lambda: [self.question_rng(partner,)])
+        self.a4=Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 13" , background="#CDEB8B", command= lambda: [self.question_rng(partner)])
         self.a4.grid(row = 3, column = 1,  padx=10, pady=10) 
         self.question_rng(partner,)
 
@@ -234,17 +234,19 @@ class Quiz_timed:
         
             root.after(1000, self.countdown, count-1)
         else: 
-            self.close_button(self)
+            self.to_export(self)
+            self.quiz_timed_box.destroy()
+        
 
     def close_button(self, partner):
         #destory the currently open box
-        self.quiz_10_box.destroy()
+        self.quiz_timed_box.destroy()
         #bring back the root box
         root.deiconify()
     def answerwrong(self):
         print("answer wrong")
         self.wrong_count +=1
-        print(self.wrong_count)
+        print("Questions wrong: {}".format(self.wrong_count))
         
          
     def answerright(self):
@@ -252,11 +254,35 @@ class Quiz_timed:
         self.right_count += 1
         
         print(self.right_count)
+    def to_export(self, partner):
+        
+        get_end = EndScreen(self)
 
+class EndScreen:
+    def __init__(self, partner): 
         
+        #background colour
+        bkg_colour= "#F8CECC"
+        #opens a new window
+        self.endscreen_box = Toplevel()
+
+        #GUI Frame
+        self.endscreen_frame = Frame(self.endscreen_box, width=400, height=300, bg=bkg_colour, padx=10, pady=10)
         
+        self.endscreen_frame.grid()
+
+        #Help Heading 0
+        self.endscreen_label = Label(self.endscreen_frame, text="", font=("Garamond 19 bold"), bg=bkg_colour, padx=10, pady=15)
+       
+        #Help Text 1 
+        self.endscreen_text = Label(self.endscreen_frame, text="Lorem ipsum \ndolor sit amet,\n consectetur adipiscing elit, \nsed do eiusmod \ntempor incididunt ut \nlabore et dolore \nmagna aliqua.", font = "Verdana 9", width = 22, justify=LEFT, bg="#9CE0ED" , wrap=250,  borderwidth=1 , relief=SOLID)
+        self.endscreen_text.grid(row=1)
+
+        #Dismiss button 2 
+        self.tryagain_button = Button(self.endscreen_frame, text="Exit", width=10,font="garamond 12",)
+        self.tryagain_button.grid(row=2,pady=10)
     
-        
+
 
 
 class Quiz_10:
