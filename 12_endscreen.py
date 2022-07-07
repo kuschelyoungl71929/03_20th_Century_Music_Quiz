@@ -41,12 +41,7 @@ class Start:
     def info(self):  
         print("help")
         get_help = Info(self)
-     
 
-    def ten_quiz(self):
-        print("start")
-        get_game = Quiz_10(self) 
-        root.withdraw()
     def mode(self):
         print("mode select")
         get_game = Mode(self) 
@@ -108,20 +103,23 @@ class Mode:
         #title
         self.start_label = Label(self.title_frame, text = "Mode Select", font="garamond 20 bold", justify=LEFT, bg=mode_bkg)
         self.start_label.grid(row=0,column = 0,sticky=N, pady=(10,0))
-        #10 questions
+        #mode buttons
         self.fs_button = Button(self.mode_frame_b,text = "Freeplay 10 Questions", width = 20, height = 1 ,font="garamond 14" , background="#FFFF88", command =lambda: self.info_disp(1))
         self.fs_button.grid(row = 2, column = 0,  pady=(20,0))
+
         self.fl_button = Button(self.mode_frame_b,text = "Freeplay 20 Questions", width = 20, height = 1 ,font="garamond 14" , background="#CCE5FF", command =lambda:  self.info_disp(2))
         self.fl_button.grid(row = 3, column = 0,  pady=(15,0))
+
         self.ti_button = Button(self.mode_frame_b,text = "Timed", width = 20, height = 1 ,font="garamond 14" , background="#CDEB8B", command =lambda:  self.info_disp(3))
         self.ti_button.grid(row = 4, column = 0, pady=(15,0))
+        #mode text
         self.mode_text = Label(self.mode_frame, text="Welcome! \nchoose a mode \nto start.", font = "Verdana 9", width = 15, justify=LEFT, bg="#9CE0ED" ,  borderwidth=1 , relief=SOLID, pady =10, padx = 15)
         self.mode_text.grid(column = 0, row=1,padx=(240,0), pady = (30,10))
         #info button
         self.i_button = Button(self.title_frame, text = "i", font="Arial 10 bold", height = 1, width = 2, command=self.info)
         self.i_button.grid(row = 0,column = 1, padx=(10,0))
 
-
+    #command to change the text on the mode screen to be a short description of the mode.
     def info_disp(self, mode):
     
         mode = int(mode)
@@ -136,9 +134,10 @@ class Mode:
 
         self.mode_text.config(text=modetext)
 
-        self.continue_button = Button(self.mode_frame, text = "Continue",font="Verdana 9", background="#9CE0ED", command =lambda:  self.ten_quiz(mode))
+        self.continue_button = Button(self.mode_frame, text = "Continue",font="Verdana 9", background="#9CE0ED", command =lambda:  self.quiz_open(mode))
         self.continue_button.grid(column = 0, row=2,padx=(240,0), pady = (0,10))
-    def ten_quiz(self, mode):
+    #command to open the correct quiz
+    def quiz_open(self, mode):
 
         if mode <= 2:
             Quiz_10(self, mode) 
@@ -147,27 +146,20 @@ class Mode:
             Quiz_timed(self,mode)
         root.withdraw()
         self.mode_box.destroy()
-
-    def timed_quiz(self,mode):
-
-        Quiz_timed(self, mode) 
-        root.withdraw()
-        self.mode_box.destroy()
+    #close the window
     def close_button(self, partner):
         #destroy the currently open box
         self.mode_box.destroy()
         #bring back the root box
         root.deiconify()
+   #open the info class
     def info(self):  
 
         get_help = Info(self)
 
 class Quiz_timed:
     def __init__(self, mode, partner):
-        print(mode)
-        self.test =IntVar()
-       
-        self.test.set(mode)
+        #set up integers for the number of questions wrong/right
         self.right_count = 0
         self.wrong_count = 0
         #opens a new window
@@ -177,11 +169,15 @@ class Quiz_timed:
         #frame to hold components
         self.answer_frame = Frame(self.quiz_timed_box, width=400, height= 200, bg = "#B1DDF0")
         self.answer_frame.grid(row=0, column = 0)
+        #timer label
         self.counter = Label(self.answer_frame, text="", font = "garamond 14", bg ="#B1DDF0" )
         self.counter.grid(row = 0, sticky=NW)
-        self.countdown(5)
+        #sets the length of the countdown and runs the command
+        self.countdown(2)
+        #label for where the qustion goes
         self.question = Label(self.answer_frame, text= "?",  font = "garamond 14", bg ="#B1DDF0" )
         self.question.grid(row=1, column = 0)
+        #answer buttons
         self.a1=Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 13" , background="#CDEB8B", command= lambda: [self.question_rng(partner)])
         self.a1.grid(row = 2, column = 0, padx=10, pady=10)
         self.a2 = Button(self.answer_frame,text = "", width = 10, height = 1 ,font="garamond 13" ,background="#CDEB8B", command= lambda: [self.question_rng(partner)])
@@ -201,31 +197,32 @@ class Quiz_timed:
         self.a2.configure(text = '',command= lambda: [self.question_rng(partner), self.answerwrong()])
         self.a3.configure(text ='',command= lambda: [self.question_rng(partner), self.answerwrong()])
         self.a4.configure(text = '',command= lambda: [self.question_rng(partner), self.answerwrong()])
-        questions = [["what colour \nis the sky?", "blue"],["1+1=?","2"],["what number \ncomes after 4?","5"],["who is the \nprime minister of \nNew Zealand(2022)?","Jacinda \nArdern"], ["why did \nthe chicken \ncross the road?", "to get to the\n other side"]]
+        #question list
+        questions = [["a","b"],["c","d"],["e","f"],["g","h"],["i","j"],["k","l"],["m","n"],["o","p"],["q","r"],["s","t"],["u","v"],["w","x"],["y","z"]]
+        #shuffles the list in order to get a random question
         random.shuffle(questions)
+        #sets the buttons text to the answers
         self.a1.configure(text = questions[1][1])
         self.a2.configure(text = questions[2][1])
         self.a3.configure(text = questions[3][1])
         self.a4.configure(text = questions[4][1])
+        #sets the buttons to have a right answer
         randomizer = random.randint(1,4)
         if randomizer == 1:
-            self.a1.configure(text = questions[0][1], command= lambda: [self.question_rng(partner,), self.answerright()])
+            self.a1.configure(text = questions[0][1], command= lambda: [self.question_rng(partner), self.answerright()])
 
         elif randomizer == 2:
-            self.a2.configure(text = questions[0][1], command= lambda: [self.question_rng(partner, ), self.answerright()])
+            self.a2.configure(text = questions[0][1], command= lambda: [self.question_rng(partner), self.answerright()])
           
         elif randomizer == 3:
-            self.a3.configure(text = questions[0][1], command= lambda: [self.question_rng(partner, ), self.answerright()])
+            self.a3.configure(text = questions[0][1], command= lambda: [self.question_rng(partner), self.answerright()])
     
         elif randomizer == 4:
-            self.a4.configure(text = questions[0][1], command= lambda: [self.question_rng(partner, ), self.answerright()])
-        
+            self.a4.configure(text = questions[0][1], command= lambda: [self.question_rng(partner), self.answerright()])
+        #displays the chosen question (first item in the shuffled list)
         self.question.configure(text = questions[0][0])
 
-        
-        
-
-
+    #timer code
     def countdown(self, count):
         self.counter.configure(text = count)
         self.counter.grid(row = 1, column = 1)
@@ -234,8 +231,9 @@ class Quiz_timed:
         
             root.after(1000, self.countdown, count-1)
         else: 
-            self.to_export(self)
             self.quiz_timed_box.destroy()
+            self.to_endscreen(self)
+            
         
 
     def close_button(self, partner):
@@ -243,18 +241,17 @@ class Quiz_timed:
         self.quiz_timed_box.destroy()
         #bring back the root box
         root.deiconify()
+    # wrong answer protocol
     def answerwrong(self):
-        print("answer wrong")
         self.wrong_count +=1
         print("Questions wrong: {}".format(self.wrong_count))
         
-         
+    # right answer protocol
     def answerright(self):
-        print("answer right")
         self.right_count += 1
-        
-        print(self.right_count)
-    def to_export(self, partner):
+        print("Questions right: {}".format(self.right_count))
+
+    def to_endscreen(self, partner):
         
         get_end = EndScreen(self)
 
@@ -265,31 +262,46 @@ class EndScreen:
         bkg_colour= "#F8CECC"
         #opens a new window
         self.endscreen_box = Toplevel()
-
+       
+        self.endscreen_box.protocol('WM_DELETE_WINDOW', partial(self.close_button, partner))
         #GUI Frame
         self.endscreen_frame = Frame(self.endscreen_box, width=400, height=300, bg=bkg_colour, padx=10, pady=10)
         
         self.endscreen_frame.grid()
 
         #Help Heading 0
-        self.endscreen_label = Label(self.endscreen_frame, text="", font=("Garamond 19 bold"), bg=bkg_colour, padx=10, pady=15)
+        self.endscreen_label = Label(self.endscreen_frame, text="Times Up!", font=("Garamond 19 bold"), bg=bkg_colour, padx=10, pady=15)
+        self.endscreen_label.grid(column=1, row = 0, sticky = N)
        
         #Help Text 1 
-        self.endscreen_text = Label(self.endscreen_frame, text="Lorem ipsum \ndolor sit amet,\n consectetur adipiscing elit, \nsed do eiusmod \ntempor incididunt ut \nlabore et dolore \nmagna aliqua.", font = "Verdana 9", width = 22, justify=LEFT, bg="#9CE0ED" , wrap=250,  borderwidth=1 , relief=SOLID)
-        self.endscreen_text.grid(row=1)
-
-        #Dismiss button 2 
-        self.tryagain_button = Button(self.endscreen_frame, text="Exit", width=10,font="garamond 12",)
-        self.tryagain_button.grid(row=2,pady=10)
+        self.endscreen_text = Label(self.endscreen_frame, text="You got {} questions right, \nand {} questions wrong in 1 minute", font = "Verdana 9", justify=LEFT, bg="#9CE0ED" , wrap=250,  borderwidth=1 , relief=SOLID)
+        self.endscreen_text.grid(column=1,row =1)
+        #button frame
+        self.button_frame = Frame(self.endscreen_frame, bg=bkg_colour)
+        self.button_frame. 
+        #Export button 
+        self.export_button = Button(self.endscreen_frame, text="Export", width=10,font="garamond 12")
+        self.export_button.grid(column = 2, row=2,pady=10, padx = (0,20))
+        
+        #try again button 
+        self.tryagain_button = Button(self.endscreen_frame, text="Try Again?", width=10,font="garamond 12",  command =lambda:  self.quiz_open())
+        self.tryagain_button.grid(column = 0, row=2,pady=10,padx = (20,0))
     
+    def close_button(self, partner):
+        #destory the currently open box
+        self.endscreen_box.destroy()
+        #bring back the root box
+        root.deiconify()
+
+    def quiz_open(self):
+        Quiz_timed(self)
+        root.withdraw()
+        self.endscreen_box.destroy()
 
 
 
 class Quiz_10:
     def __init__(self, mode, partner):
-        print(mode)
-        self.test =IntVar()
-        self.test.set(mode)
         #set up list to hold questions
         questions = []
         #opens a new window
